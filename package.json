@@ -6,7 +6,7 @@
         "lint:css": "stylelint **/*.css",
         "lint:html": "htmlhint **/*.html"
     },
-    "dependencies": {
+    "devDependencies": {
         "eslint": "^9.0.0",
         "stylelint": "^16.0.0",
         "stylelint-config-standard": "^36.0.0",
