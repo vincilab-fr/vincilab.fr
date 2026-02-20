@@ -25,7 +25,7 @@ jobs:
 
       - name: Lint JavaScript
         run: npm run lint:js
-        
+
       - name: Tests
         run: npm test --if-present
 
@@ -51,6 +51,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             cd /var/www/vincilab
             docker stop frontend || true
