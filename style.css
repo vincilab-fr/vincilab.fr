@@ -1,0 +1,14 @@
+/* Style de test pour valider la CI */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  font-family: sans-serif;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
