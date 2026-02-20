@@ -54,9 +54,21 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
+            # 1. Préparation du dossier
+            sudo mkdir -p /var/www/vincilab
+            sudo chown -R ${{ secrets.SERVER_USER }}:${{ secrets.SERVER_USER }} /var/www/vincilab
+            
             cd /var/www/vincilab
+            
+            # 2. Nettoyage de l'ancien container
             docker stop frontend || true
             docker rm frontend || true
-            docker rmi frontend || true
-            docker build -t frontend .
+            
+            # 3. Build de la nouvelle image
+            docker build --no-cache -t frontend .
+            
+            # 4. Lancement du nouveau container
             docker run -d --name frontend -p 80:80 frontend
+            
+            # 5. Nettoyage des images inutilisées (dangling) pour gagner de la place
+            docker image prune -f
