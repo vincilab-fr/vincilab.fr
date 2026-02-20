@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
   push:
@@ -9,13 +9,10 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Récupérer le code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Installer Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
@@ -23,14 +20,36 @@ jobs:
       - name: Installer les dépendances
         run: npm ci
 
+      - name: Lint HTML
+        run: npm run lint:html
+
       - name: Lint JavaScript
         run: npm run lint:js
 
       - name: Lint CSS
         run: npm run lint:css
 
-      - name: Lint HTML
-        run: npm run lint:html
-
       - name: Tests
         run: npm test --if-present
+
+  deploy:
+    needs: ci
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Déployer sur le serveur
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker stop frontend || true
+            docker rm frontend || true
+            docker rmi frontend || true
+            cd /var/www/vincilab
+            git pull origin main
+            docker build -t frontend .
+            docker run -d --name frontend -p 80:80 frontend
