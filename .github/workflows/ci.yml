@@ -34,41 +34,34 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Copier les fichiers sur le serveur
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          source: "."
-          target: "/var/www/vincilab"
-
-      - name: Construire et lancer Docker
-        uses: appleboy/ssh-action@v1
+      - name: Déploiement via SSH (Docker)
+        uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
-            # 1. Préparation du dossier
-            sudo mkdir -p /var/www/vincilab
-            sudo chown -R ${{ secrets.SERVER_USER }}:${{ secrets.SERVER_USER }} /var/www/vincilab
+            # 1. Préparation du dossier dans ton espace personnel (pas de sudo nécessaire)
+            mkdir -p ~/vincilab && cd ~/vincilab
             
-            cd /var/www/vincilab
+            # 2. Récupération du code via Git
+            # Si le dossier .git n'existe pas, on clone. Sinon, on pull.
+            if [ ! -d ".git" ]; then
+              git clone https://github.com/${{ github.repository }}.git .
+            else
+              git pull origin main
+            fi
             
-            # 2. Nettoyage de l'ancien container
+            # 3. Nettoyage de l'ancien container
             docker stop frontend || true
             docker rm frontend || true
             
-            # 3. Build de la nouvelle image
+            # 4. Build de la nouvelle image avec Docker
             docker build --no-cache -t frontend .
             
-            # 4. Lancement du nouveau container
+            # 5. Lancement du nouveau container sur le port 80
             docker run -d --name frontend -p 80:80 frontend
             
-            # 5. Nettoyage des images inutilisées (dangling) pour gagner de la place
+            # 6. Nettoyage des images inutiles pour ne pas saturer le serveur
             docker image prune -f
