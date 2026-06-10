@@ -48,8 +48,13 @@ class AuthController extends Controller {
             $_SESSION['user_id']    = $user['id'];
             $_SESSION['user_email'] = $user['email'];
             $_SESSION['user_name']  = $user['name'];
+            $_SESSION['user_role']  = $user['role'];
 
-            $this->redirect('/vincilab/public/');
+            if ($user['role'] === 'admin') {
+                $this->redirect('/vincilab/public/admin');
+            } else {
+                $this->redirect('/vincilab/public/');
+            }
         } else {
             $_SESSION['error'] = 'Veuillez remplir tous les champs';
             $this->redirect('/vincilab/public/login');

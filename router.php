@@ -51,6 +51,47 @@ switch ($route) {
         $projetController->list();
         break;
 
+    case 'GET /mes-projets':
+        $projetController->myProjects();
+        break;
+
+    case 'POST /mes-projets/supprimer':
+        $projetController->deleteProject();
+        break;
+
+    case 'GET /admin':
+    case 'GET /admin/':
+        $adminController->dashboard();
+        break;
+
+    case 'GET /admin/projects':
+        $adminController->projects();
+        break;
+
+    case 'POST /admin/projects/approve':
+        $adminController->approveProject();
+        break;
+
+    case 'POST /admin/projects/reject':
+        $adminController->rejectProject();
+        break;
+
+    case 'POST /admin/projects/feature':
+        $adminController->featureProject();
+        break;
+
+    case 'POST /admin/projects/unfeature':
+        $adminController->unfeatureProject();
+        break;
+
+    case 'GET /admin/users':
+        $adminController->users();
+        break;
+
+    case 'POST /admin/users/delete':
+        $adminController->deleteUser();
+        break;
+
     default:
         http_response_code(404);
         echo "Page non trouvée";
