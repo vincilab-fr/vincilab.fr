@@ -25,7 +25,10 @@
             </nav>
 
             <?php if (isset($_SESSION['user_id'])) { ?>
-                <button class="btn-primary btn-publier" onclick="window.location.href='/vincilab/public/logout'">Déconnexion</button>
+                <div class="d-flex gap-2 align-items-center">
+                    <a href="/vincilab/public/mes-projets" class="btn-outline btn-publier">Mes projets</a>
+                    <button class="btn-primary btn-publier" onclick="window.location.href='/vincilab/public/logout'">Déconnexion</button>
+                </div>
             <?php } else { ?>
                 <button class="btn-primary btn-publier" onclick="window.location.href='/vincilab/public/login'">Connexion</button>
             <?php } ?>
@@ -160,57 +163,29 @@
                     <p>Découvrez les projets du moment</p>
                 </div>
 
-
-                    <div class="cards-project">
-                        <div class="card-project">
-                            <div class="card-project-img">
-                                <img src="" alt="">
+                <div class="cards-project">
+                    <?php if (empty($featuredProjects)) { ?>
+                        <p>Aucun projet à la une pour l'instant.</p>
+                    <?php } else { ?>
+                        <?php foreach ($featuredProjects as $projet) { ?>
+                            <div class="card-project">
+                                <div class="card-project-img">
+                                    <img src="" alt="">
+                                </div>
+                                <div class="card-project-content">
+                                    <h3><?php echo htmlspecialchars($projet['title']); ?></h3>
+                                    <p><?php echo htmlspecialchars($projet['description'] ?? 'Projet hébergé sur VinciLab'); ?></p>
+                                </div>
+                                <div class="card-project-button">
+                                    <?php if (!empty($projet['demo_link'])) { ?>
+                                        <button class="btn-primary" onclick="window.location.href='<?php echo htmlspecialchars($projet['demo_link']); ?>'">Démo</button>
+                                    <?php } ?>
+                                    <button class="btn-outline" onclick="window.location.href='<?php echo htmlspecialchars($projet['github_link']); ?>'">Code</button>
+                                </div>
                             </div>
-
-                            <div class="card-project-content">
-                                <h3>Potato</h3>
-                                <p>Projet hébergé sur VinciLab</p>
-                            </div>
-
-                            <div class="card-project-button">
-                                <button class="btn-primary">Démo</button>
-                                <button class="btn-outline">Code</button>
-                            </div>
-                        </div>
-
-
-                        <div class="card-project">
-                            <div class="card-project-img">
-                                <img src="" alt="">
-                            </div>
-
-                            <div class="card-project-content">
-                                <h3>Projet 2</h3>
-                                <p>Projet hébergé sur VinciLab</p>
-                            </div>
-
-                            <div class="card-project-button">
-                                <button class="btn-primary">Démo</button>
-                                <button class="btn-outline">Code</button>
-                            </div>
-                        </div>
-
-                        <div class="card-project">
-                            <div class="card-project-img">
-                                <img src="" alt="">
-                            </div>
-
-                            <div class="card-project-content">
-                                <h3>Projet 3</h3>
-                                <p>Projet hébergé sur VinciLab</p>
-                            </div>
-
-                            <div class="card-project-button">
-                                <button class="btn-primary">Démo</button>
-                                <button class="btn-outline">Code</button>
-                            </div>
-                        </div>
-                    </div>
+                        <?php } ?>
+                    <?php } ?>
+                </div>
 
             </div>
         </section>
