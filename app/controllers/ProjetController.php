@@ -44,6 +44,12 @@ class ProjetController extends Controller {
             $github_link = '';
         }
 
+        if (isset($_POST['demo_link'])) {
+            $demo_link = trim($_POST['demo_link']);
+        } else {
+            $demo_link = '';
+        }
+
         if ($title === '') {
             $_SESSION['error'] = 'Le titre est obligatoire';
             $this->redirect('/vincilab/public/projet/soumettre');
@@ -51,7 +57,7 @@ class ProjetController extends Controller {
         }
 
         $user_id = $_SESSION['user_id'];
-        $cree = $this->projetRepository->create($title, $description, $github_link, $user_id);
+        $cree = $this->projetRepository->create($title, $description, $github_link, $demo_link, $user_id);
 
         if ($cree) {
             $_SESSION['success'] = 'Projet soumis avec succès';
@@ -65,5 +71,24 @@ class ProjetController extends Controller {
     public function list(): void {
         $projets = $this->projetRepository->findAll();
         $this->view('projets', ['projets' => $projets]);
+    }
+
+    public function myProjects(): void {
+        if (!isset($_SESSION['user_id'])) {
+            $this->redirect('/vincilab/public/login');
+            return;
+        }
+        $projets = $this->projetRepository->findByUserId($_SESSION['user_id']);
+        $this->view('mes-projets', ['projets' => $projets]);
+    }
+
+    public function deleteProject(): void {
+        if (!isset($_SESSION['user_id'])) {
+            $this->redirect('/vincilab/public/login');
+            return;
+        }
+        $id = (int) $_POST['id'];
+        $this->projetRepository->deleteById($id, $_SESSION['user_id']);
+        $this->redirect('/vincilab/public/mes-projets');
     }
 }

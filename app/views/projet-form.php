@@ -31,9 +31,13 @@
                     <label class="form-label">Description</label>
                     <textarea name="description" class="form-control" rows="5"></textarea>
                 </div>
-                <div class="mb-4">
+                <div class="mb-3">
                     <label class="form-label">Lien GitHub</label>
                     <input type="url" name="github_link" class="form-control" placeholder="https://github.com/..." required>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">Lien Démo <span class="text-muted">(optionnel)</span></label>
+                    <input type="url" name="demo_link" class="form-control" placeholder="https://...">
                 </div>
                 <button type="submit" class="btn btn-primary w-100" style="background-color: #387FF5; border-color: #387FF5;">Soumettre</button>
             </form>
