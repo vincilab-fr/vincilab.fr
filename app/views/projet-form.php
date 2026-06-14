@@ -14,7 +14,7 @@
     <div class="min-vh-100 d-flex align-items-center justify-content-center py-5">
         <div class="card shadow-sm border-0 p-4" style="width: 100%; max-width: 560px;">
             <div class="text-center mb-4">
-                <a href="/vincilab/public/"><img src="../images/logo/logo-vinci.png" alt="VinciLab" height="40"></a>
+                <a href="/vincilab/public/"><img src="../../images/logo/logo-vinci.png" alt="VinciLab" height="40"></a>
                 <h1 class="h4 fw-semibold mt-3">Soumettre un projet</h1>
             </div>
 

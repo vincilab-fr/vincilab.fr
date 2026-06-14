@@ -25,9 +25,9 @@
             </nav>
 
             <?php if (isset($_SESSION['user_id'])) { ?>
-                <div class="d-flex gap-2 align-items-center">
-                    <a href="/vincilab/public/mes-projets" class="btn-outline btn-publier">Mes projets</a>
-                    <button class="btn-primary btn-publier" onclick="window.location.href='/vincilab/public/logout'">Déconnexion</button>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <a href="/vincilab/public/mes-projets" class="btn-primary btn-publier">Mes projets</a>
+                    <button class="btn-outline btn-publier" onclick="window.location.href='/vincilab/public/logout'">Déconnexion</button>
                 </div>
             <?php } else { ?>
                 <button class="btn-primary btn-publier" onclick="window.location.href='/vincilab/public/login'">Connexion</button>

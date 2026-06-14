@@ -8,19 +8,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; }
+        .vl-header { border-bottom: 1px solid #e5e7eb; background: #fff; }
+        .vl-header .inner { max-width: 1200px; margin: 0 auto; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .vl-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: #111; font-weight: 600; font-size: 18px; }
+        .vl-nav { display: flex; align-items: center; gap: 20px; }
+        .vl-nav a.link { text-decoration: none; font-size: 16px; color: #4B5162; }
+        .vl-nav a.link:hover { color: #387FF5; }
+        .vl-btn-outline { padding: 10px 22px; background-color: transparent; border-radius: 5px; border: 1px solid #4B5162; color: #4B5162; font-family: 'Poppins', sans-serif; font-size: 14px; text-decoration: none; }
+        .container { max-width: 1200px !important; padding-left: 40px !important; padding-right: 40px !important; }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #387FF5;">
-        <div class="container">
-            <a class="navbar-brand fw-semibold" href="/vincilab/public/admin">VinciLab Admin</a>
-            <div class="d-flex gap-3">
-                <a href="/vincilab/public/admin/projects" class="btn btn-light btn-sm">Projets</a>
-                <a href="/vincilab/public/admin/users" class="btn btn-light btn-sm">Utilisateurs</a>
-                <a href="/vincilab/public/logout" class="btn btn-outline-light btn-sm">Déconnexion</a>
+    <header class="vl-header">
+        <div class="inner">
+            <a href="/vincilab/public/admin" class="vl-logo">
+                <img src="../../images/logo/logo-vinci.png" alt="VinciLab" height="32">
+                VinciLab
+            </a>
+            <div class="vl-nav">
+                <a href="/vincilab/public/admin/projects" class="link">Projets</a>
+                <a href="/vincilab/public/admin/users" class="link">Utilisateurs</a>
+                <a href="/vincilab/public/logout" class="vl-btn-outline">Déconnexion</a>
             </div>
         </div>
-    </nav>
+    </header>
 
     <div class="container py-5">
 
@@ -44,7 +55,7 @@
                             <tr>
                                 <td><?php echo htmlspecialchars($project['title']); ?></td>
                                 <td><?php echo htmlspecialchars($project['author']); ?></td>
-                                <td><a href="<?php echo htmlspecialchars($project['github_link']); ?>" target="_blank">Voir</a></td>
+                                <td><a href="<?php echo htmlspecialchars($project['github_link']); ?>" target="_blank" class="btn btn-outline-secondary btn-sm">GitHub</a></td>
                                 <td><?php echo htmlspecialchars($project['created_at']); ?></td>
                                 <td class="d-flex gap-2">
                                     <form method="POST" action="/vincilab/public/admin/projects/approve">
@@ -83,7 +94,7 @@
                             <tr>
                                 <td><?php echo htmlspecialchars($project['title']); ?></td>
                                 <td><?php echo htmlspecialchars($project['author']); ?></td>
-                                <td><a href="<?php echo htmlspecialchars($project['github_link']); ?>" target="_blank">Voir</a></td>
+                                <td><a href="<?php echo htmlspecialchars($project['github_link']); ?>" target="_blank" class="btn btn-outline-secondary btn-sm">GitHub</a></td>
                                 <td>
                                     <?php if ($project['featured']) { ?>
                                         <span class="badge bg-success">Oui</span>
